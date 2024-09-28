@@ -1,0 +1,6 @@
+@EVO.ReposManager.WebApi_HostAddress = http://localhost:5171
+
+GET {{EVO.ReposManager.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
