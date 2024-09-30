@@ -20,9 +20,4 @@
     <ProjectReference Include="..\EVO.ReposManager.Application\EVO.ReposManager.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Config\" />
-    <Folder Include="Context\" />
-  </ItemGroup>
-
 </Project>

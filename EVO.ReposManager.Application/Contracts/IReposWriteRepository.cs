@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace EVO.ReposManager.Application.Contracts
 {
-    public interface IReposQueryRepository
+    public interface IReposWriteRepository
     {
-        Task<List<Repo>> GetRepositoriesByUserAsync(string username);
+        Task<bool> CreateFavoriteRepo(Repo repository);
+        Task<bool> DeleteFavoriteRepo(long id);
     }
 }

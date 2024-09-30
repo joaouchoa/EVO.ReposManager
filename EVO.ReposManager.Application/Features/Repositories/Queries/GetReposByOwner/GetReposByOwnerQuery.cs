@@ -1,4 +1,4 @@
-﻿using EVO.ReposManager.Domain.Entities;
+﻿using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,5 @@ using System.Threading.Tasks;
 
 namespace EVO.ReposManager.Application.Features.Repositories.Queries.GetRepositories
 {
-    public record GetReposQueryResponse(
-           List<Repo> Repositories
-        );
+    public record GetReposByOwnerQuery(string UserName) : IRequest<GetReposByOwnerQueryResponse>;
 }
