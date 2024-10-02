@@ -1,4 +1,5 @@
 ﻿using EVO.ReposManager.Application.DTOs;
+using EVO.ReposManager.Application.Features.Repositories.DTOs;
 using EVO.ReposManager.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,13 @@ namespace EVO.ReposManager.Application.Contracts
 {
     public interface IReposReadRepository
     {
-        Task<List<GitHubApiResponse>> GetRepositoriesByUserAsync(string username);
+        Task<List<GetReposByOnwerGitHubResponse>> GetRepositoriesByUserAsync(string username);
+
+        Task<GetRepoByNameGitHubResponse> GetByRepositoryByNameAsync(string repoName, int page, int perPage);
 
         Task<bool> ExistsFavoriteRepoByIdAsync(long id);
+
+        Task<List<Repo>> GetFavoriteRepos();
+
     }
 }

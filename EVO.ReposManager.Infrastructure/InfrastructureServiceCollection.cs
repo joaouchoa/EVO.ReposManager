@@ -17,7 +17,6 @@ namespace EVO.ReposManager.Infrastructure
         public static IServiceCollection AddQueryInfrastructure(this IServiceCollection services) 
         {
             services.AddScoped<ReposManagerContext>();
-            //services.Configure<GitHubSettings>(configuration.GetSection("GitHub"));
             services.AddScoped<IReposReadRepository, ReposReadRepository>(); // Registro da interface
             services.AddScoped<IReposWriteRepository, ReposWriteRepository>(); // Registro da interface
 

@@ -14,5 +14,7 @@ namespace EVO.ReposManager.Application.ValidationMessages
         public const string ID_MATCHES_ERROR_MESSAGE = "{PropertyName} can only contain numbers.";
         public const string START_END_HYPHEN_ERROR_MESSAGE = "{PropertyName} cannot start or end with a hyphen.";
         public const string CONSECUTIVE_HYPHENS_ERROR_MESSAGE = "{PropertyName} cannot contain two consecutive hyphens.";
+        public const string NEGATIVE_NUMBER_ERROR_MESSAGE = "{PropertyName} cannot be a negative number.";
+        public const string LIMITE_PER_PAGE_ERROR_MESSAGE = "{PropertyName} cannot be bigger than 30.";
     }
 }

@@ -1,5 +1,7 @@
 ﻿using EVO.ReposManager.Application.Features.Repositories.Commands.CreateFavoriteRepo;
 using EVO.ReposManager.Application.Features.Repositories.Commands.DeleteFavoriteRepo;
+using EVO.ReposManager.Application.Features.Repositories.Queries.GetFavoriteRepos;
+using EVO.ReposManager.Application.Features.Repositories.Queries.GetRepoByName;
 using EVO.ReposManager.Application.Features.Repositories.Queries.GetRepositories;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -36,10 +38,46 @@ namespace EVO.ReposManager.WebApi.Controllers
             return CustomResponse((int)HttpStatusCode.OK, true, response);
         }
 
-        [HttpDelete("[action]/{id}", Name = "DeleteRepositoryById")]
+        [HttpGet("[action]/{repositoryName}", Name = "GetRepositoriesByName")]
         [ProducesResponseType(typeof(BaseResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> DeleteRepositoryById([FromRoute] long id)
+        public async Task<ActionResult> GetRepositoriesByName([FromRoute] string repositoryName, int page, int perPage)
+        {
+            var query = new GetRepoByNameQuery(repositoryName, page, perPage);
+
+            var response = await _mediator.Send(query, HttpContext.RequestAborted);
+
+            if (response is null)
+                return CustomResponse((int)HttpStatusCode.NotFound, false);
+
+            if (response.Repositories is null && response.Errors.Count > 0)
+                return CustomResponse((int)HttpStatusCode.BadRequest, false, response);
+
+            return CustomResponse((int)HttpStatusCode.OK, true, response);
+        }
+
+        [HttpGet("GetFavoriteRepositories")]
+        [ProducesResponseType(typeof(BaseResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult> GetFavoriteRepositories()
+        {
+            var query = new GetFavoriteReposQuery();
+
+            var response = await _mediator.Send(query, HttpContext.RequestAborted);
+
+            if (response is null)
+                return CustomResponse((int)HttpStatusCode.NotFound, false);
+
+            //if (response.Repositories is null && response.Errors.Count > 0)
+            //    return CustomResponse((int)HttpStatusCode.BadRequest, false, response);
+
+            return CustomResponse((int)HttpStatusCode.OK, true, response);
+        }
+
+        [HttpDelete("[action]/{id}", Name = "DeleteFavoriteRepositoryById")]
+        [ProducesResponseType(typeof(BaseResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult> DeleteFavoriteRepositoryById([FromRoute] long id)
         {
             var query = new DeleteFavoriteRepoCommand(id);
 
@@ -71,5 +109,6 @@ namespace EVO.ReposManager.WebApi.Controllers
 
             return CustomResponse((int)HttpStatusCode.Created, response.created, response);
         }
+
     }
 }

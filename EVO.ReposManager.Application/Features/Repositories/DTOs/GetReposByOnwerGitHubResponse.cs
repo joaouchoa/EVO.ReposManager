@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EVO.ReposManager.Application.DTOs
 {
-    public record GitHubApiResponse
+    public record GetReposByOnwerGitHubResponse
     {
         [JsonPropertyName("id")]
         public long Id { get; init; }

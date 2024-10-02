@@ -8,6 +8,8 @@ namespace EVO.ReposManager.Infrastructure.Config
 {
     public class GitHubSettings
     {
-        public string ApiUrl { get; set; }
+        public string ApiUrlGetByOnwer { get; set; }
+        public string ApiUrlGetByRepoName { get; set; }
+        public string ApiUrlGetTotalCount { get; set; }
     }
 }
