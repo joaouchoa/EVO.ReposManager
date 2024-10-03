@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EVO.ReposManager.Infrastructure.Migrations
 {
     [DbContext(typeof(ReposManagerContext))]
-    [Migration("20240930220951_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241003005819_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,16 +26,18 @@ namespace EVO.ReposManager.Infrastructure.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("Language")
-                        .IsRequired()
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(39)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Owner")
+                        .IsRequired()
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("Url")

@@ -39,7 +39,8 @@ namespace EVO.ReposManager.Application.Features.Repositories.Queries.GetReposito
                 Name = gitHubRepo.Name,
                 Description = gitHubRepo.Description,
                 Url = gitHubRepo.Url,
-                Language = gitHubRepo.Language
+                Language = gitHubRepo.Language,
+                Owner = gitHubRepo.Owner.Login
             }).ToList() ?? new List<Repo>();
 
             var Sucessresponse = new GetReposByOwnerQueryResponse(repositories,default);

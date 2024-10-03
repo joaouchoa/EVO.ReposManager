@@ -10,7 +10,8 @@ namespace EVO.ReposManager.Application.Features.Repositories.Commands.CreateFavo
     public record CreateFavoriteRepoCommand(
             long Id,
             string Name,
-            string Description,
+            string? Description,
             string Url,
-            string Language) : IRequest<CreateFavoriteRepoCommandResponse>;
+            string? Language,
+            string Owner) : IRequest<CreateFavoriteRepoCommandResponse>;
 }

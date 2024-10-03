@@ -6,6 +6,7 @@ using EVO.ReposManager.Application.Features.Repositories.Queries.GetRepositories
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Text.Json;
 
 namespace EVO.ReposManager.WebApi.Controllers
 {
@@ -97,7 +98,8 @@ namespace EVO.ReposManager.WebApi.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> CreateFavoriteRepository([FromBody] CreateFavoriteRepoCommand repository)
         {
-            var query = new CreateFavoriteRepoCommand(repository.Id, repository.Name, repository.Description,repository.Url, repository.Language);
+            var query = new CreateFavoriteRepoCommand(repository.Id, repository.Name, repository.Description,repository.Url, repository.Language, repository.Owner);
+            Console.WriteLine($"Received repository: {JsonSerializer.Serialize(query)}");
 
             var response = await _mediator.Send(query, HttpContext.RequestAborted);
 

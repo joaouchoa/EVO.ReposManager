@@ -23,16 +23,18 @@ namespace EVO.ReposManager.Infrastructure.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("Language")
-                        .IsRequired()
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(39)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Owner")
+                        .IsRequired()
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("Url")

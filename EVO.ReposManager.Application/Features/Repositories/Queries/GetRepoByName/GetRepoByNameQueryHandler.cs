@@ -47,7 +47,8 @@ namespace EVO.ReposManager.Application.Features.Repositories.Queries.GetRepoByNa
                 Name = repo.Name,
                 Description = repo.Description,
                 Url = repo.Url,
-                Language = repo.Language
+                Language = repo.Language,
+                Owner = repo.Owner.Login
             }).ToList();
 
             // Verifica se há mais páginas

@@ -26,10 +26,10 @@ namespace EVO.ReposManager.Application.Features.Repositories.Commands.CreateFavo
         {
             var validatorResult = _validator.Validate(request);
 
-            if(!validatorResult.IsValid)
+            if (!validatorResult.IsValid)
                 return new CreateFavoriteRepoCommandResponse(false, validatorResult.Errors.Select(e => e.ErrorMessage).ToList());
 
-            var favorite = new Repo(request.Id, request.Name, request.Description, request.Url, request.Language);
+            var favorite = new Repo(request.Id, request.Name, request.Description, request.Url, request.Language, request.Owner);
             
             var result = await _repository.CreateFavoriteRepo(favorite);
 

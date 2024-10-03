@@ -84,13 +84,13 @@ namespace EVO.ReposManager.Infrastructure.Repositories
                 page = totalPages;
             }
 
-            var pagedUrl = $"https://api.github.com/search/repositories?q={repositoryName}&page={page}&per_page={perPage}";
+           // var pagedUrl = $"https://api.github.com/search/repositories?q={repositoryName}&page={page}&per_page={perPage}";
             var apiUrl = _gitHubSettings.ApiUrlGetByRepoName
-                    .Replace("username", repositoryName)
+                    .Replace("repositoryName", repositoryName)
                     .Replace("pagina", page.ToString())
                     .Replace("byRequest", perPage.ToString());
 
-            var pagedrequest = new HttpRequestMessage(HttpMethod.Get, pagedUrl);
+            var pagedrequest = new HttpRequestMessage(HttpMethod.Get, apiUrl);
             pagedrequest.Headers.Add("User-Agent", "ReposManagerPaged"); 
 
             var pagedResponse = await _httpClient.SendAsync(pagedrequest);
@@ -100,9 +100,10 @@ namespace EVO.ReposManager.Infrastructure.Repositories
                 return default;
             }
 
-            var pagedContent = await response.Content.ReadAsStringAsync();
+            var pagedContent = await pagedResponse.Content.ReadAsStringAsync();
 
             var gitHubResponse = JsonSerializer.Deserialize<GetRepoByNameGitHubResponse>(pagedContent);
+
 
             var repositories = gitHubResponse.Repositories.Select(repo => new GetReposByOnwerGitHubResponse
             {
@@ -110,7 +111,8 @@ namespace EVO.ReposManager.Infrastructure.Repositories
                 Name = repo.Name,
                 Description = repo.Description,
                 Url = repo.Url,
-                Language = repo.Language
+                Language = repo.Language,
+                Owner = repo.Owner
             }).ToList();
 
             return new GetRepoByNameGitHubResponse(gitHubResponse.TotalCount, repositories);

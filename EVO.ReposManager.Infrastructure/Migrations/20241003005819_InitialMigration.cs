@@ -5,7 +5,7 @@
 namespace EVO.ReposManager.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,9 +17,10 @@ namespace EVO.ReposManager.Infrastructure.Migrations
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "varchar(100)", maxLength: 39, nullable: false),
-                    Description = table.Column<string>(type: "varchar(100)", nullable: false),
+                    Description = table.Column<string>(type: "varchar(100)", nullable: true),
                     Url = table.Column<string>(type: "varchar(100)", nullable: false),
-                    Language = table.Column<string>(type: "varchar(100)", nullable: false)
+                    Language = table.Column<string>(type: "varchar(100)", nullable: true),
+                    Owner = table.Column<string>(type: "varchar(100)", nullable: false)
                 },
                 constraints: table =>
                 {

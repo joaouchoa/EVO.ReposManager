@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EVO.ReposManager.Application.Features.Repositories.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,5 +24,8 @@ namespace EVO.ReposManager.Application.DTOs
 
         [JsonPropertyName("language")]
         public string Language { get; init; }
+
+        [JsonPropertyName("owner")]
+        public Owner Owner { get; init; } // Aqui está o objeto Owner
     }
 }

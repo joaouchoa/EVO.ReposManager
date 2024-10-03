@@ -27,6 +27,9 @@ namespace EVO.ReposManager.Infrastructure.Config
             builder.Property(x => x.Description);
 
             builder.Property(x => x.Language);
+
+            builder.Property(x => x.Owner)
+                 .IsRequired();
         }
     }
 }
