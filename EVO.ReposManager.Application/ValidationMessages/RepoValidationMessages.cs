@@ -16,5 +16,10 @@ namespace EVO.ReposManager.Application.ValidationMessages
         public const string CONSECUTIVE_HYPHENS_ERROR_MESSAGE = "{PropertyName} cannot contain two consecutive hyphens.";
         public const string NEGATIVE_NUMBER_ERROR_MESSAGE = "{PropertyName} cannot be a negative number.";
         public const string LIMITE_PER_PAGE_ERROR_MESSAGE = "{PropertyName} cannot be bigger than 30.";
+        public const string REPO_CREATED_MESSAGE = "Repository created successfully.";
+        public const string REPO_DONT_CREATED_ERROR_MESSAGE = "Failed to create the repository.";
+        public const string REPO_ALREADY_EXISTS_ERROR_MESSAGE = "Repository already exists.";
+        public const string REPO_DONT_CREATED_UNKNOW_STATUS_ERROR_MESSAGE = "Repository already exists.";
+
     }
 }

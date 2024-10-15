@@ -25,15 +25,15 @@ namespace EVO.ReposManager.Application.Features.Repositories.Queries.GetReposito
         {
             var validationResult = _validator.Validate(request);
             if (!validationResult.IsValid)
-                return new GetReposByOwnerQueryResponse(default, validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+                return new GetReposByOwnerQueryResponse(default, false, default, validationResult.Errors.Select(e => e.ErrorMessage).ToList());
 
-            var repos = await _repository.GetRepositoriesByUserAsync(request.UserName);
+            var repos = await _repository.GetRepositoriesByUserAsync(request.UserName, request.page, request.perPage);
 
-            if (repos is null || repos.Count == 0)
+            if (repos is null || repos.Repositories.Count == 0)
                 return default;
 
             // Converter de GitHubResponse para Repo
-            var repositories = repos?.Select(gitHubRepo => new Repo
+            var repositories = repos.Repositories?.Select(gitHubRepo => new Repo
             {
                 Id = gitHubRepo.Id,
                 Name = gitHubRepo.Name,
@@ -43,7 +43,9 @@ namespace EVO.ReposManager.Application.Features.Repositories.Queries.GetReposito
                 Owner = gitHubRepo.Owner.Login
             }).ToList() ?? new List<Repo>();
 
-            var Sucessresponse = new GetReposByOwnerQueryResponse(repositories,default);
+            var hasMorePages = request.page < repos.finalPage;
+
+            var Sucessresponse = new GetReposByOwnerQueryResponse(repos.finalPage, hasMorePages, repositories, default);
             return Sucessresponse;
         }
     }

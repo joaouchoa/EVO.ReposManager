@@ -11,5 +11,6 @@ namespace EVO.ReposManager.Infrastructure.Config
         public string ApiUrlGetByOnwer { get; set; }
         public string ApiUrlGetByRepoName { get; set; }
         public string ApiUrlGetTotalCount { get; set; }
+        public string ApiUrlGetByRepoNameTotalCount { get; set; }
     }
 }

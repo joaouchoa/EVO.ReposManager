@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace EVO.ReposManager.Application.Features.Repositories.Queries.GetRepositories
 {
-    public record GetReposByOwnerQuery(string UserName) : IRequest<GetReposByOwnerQueryResponse>;
+    public record GetReposByOwnerQuery(string UserName, int page, int perPage) : IRequest<GetReposByOwnerQueryResponse>;
 }

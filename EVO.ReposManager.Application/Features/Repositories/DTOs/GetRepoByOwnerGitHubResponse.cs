@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace EVO.ReposManager.Application.Features.Repositories.DTOs
 {
-    public record GetRepoByNameGitHubResponse(
-        [property: JsonPropertyName("total_count")] int TotalCount,
+    public record GetRepoByOwnerGitHubResponse(
+        [property: JsonPropertyName("total_count")] int finalPage,
         [property: JsonPropertyName("items")] List<RepositoryGitHubResponse> Repositories
     );
 }

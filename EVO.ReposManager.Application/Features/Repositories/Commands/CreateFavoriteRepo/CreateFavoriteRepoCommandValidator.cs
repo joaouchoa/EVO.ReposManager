@@ -20,7 +20,7 @@ namespace EVO.ReposManager.Application.Features.Repositories.Commands.CreateFavo
             RuleFor(d => d.Name)
                 .NotEmpty().WithMessage(RepoValidationMessages.NOT_EMPTY_ERROR_MESSAGE)
                 .MaximumLength(Repo.MAX_LENGHT).WithMessage(RepoValidationMessages.MAX_LENGTH_ERROR_MESSAGE)
-                .Matches("^[a-zA-Z0-9-]+$").WithMessage(RepoValidationMessages.MATCHES_ERROR_MESSAGE)
+                //.Matches("^[a-zA-Z0-9-]+$").WithMessage(RepoValidationMessages.MATCHES_ERROR_MESSAGE)
                 .Must(name => !name.StartsWith("-") && !name.EndsWith("-"))
                 .WithMessage(RepoValidationMessages.START_END_HYPHEN_ERROR_MESSAGE)
                 .Must(name => !name.Contains("--"))

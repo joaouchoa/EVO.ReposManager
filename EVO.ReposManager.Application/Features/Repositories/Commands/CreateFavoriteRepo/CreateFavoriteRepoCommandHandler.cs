@@ -1,6 +1,7 @@
 ﻿using EVO.ReposManager.Application.Contracts;
 using EVO.ReposManager.Application.Features.Repositories.Queries.GetRepositories;
 using EVO.ReposManager.Domain.Entities;
+using EVO.ReposManager.Domain.Enums;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -33,8 +34,8 @@ namespace EVO.ReposManager.Application.Features.Repositories.Commands.CreateFavo
             
             var result = await _repository.CreateFavoriteRepo(favorite);
 
-            if (!result)
-                return default;
+            if (result != ERepoCreationStatus.Success)
+                return new CreateFavoriteRepoCommandResponse(false, new List<string> { result.ToMessage() });
 
             return new CreateFavoriteRepoCommandResponse(true, default);
         }

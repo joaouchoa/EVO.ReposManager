@@ -27,19 +27,23 @@ namespace EVO.ReposManager.Application.Features.Repositories.Queries.GetRepoByNa
         {
             var validationResult = _validator.Validate(request);
             if (!validationResult.IsValid)
-                return new GetRepoByNameQueryResponse(default, validationResult.Errors.Select(e => e.ErrorMessage).ToList(), false);
+                return new GetRepoByNameQueryResponse(false, default, default, validationResult.Errors.Select(e => e.ErrorMessage).ToList());
 
-            var response = await _repository.GetByRepositoryByNameAsync(request.repoName, request.page, request.perPage);
+            var totalCount = await _repository.GetByRepositoryByNameCountAsync(request.repoName);
+
+            if (totalCount == 0)
+                return default;
+
+            int totalPages = (int)Math.Ceiling((double)totalCount / request.perPage);
+
+            var page = request.page;
+            if (request.page > totalPages && totalPages > 0)
+                page = totalPages;
+
+            var response = await _repository.GetByRepositoryByNameAsync(request.repoName, page, request.perPage);
 
             if (response is null || response.Repositories.Count == 0)
                 return default;
-
-            // Calcula o total de páginas
-            int totalCount = response.TotalCount;
-            int totalPages = (int)Math.Ceiling((double)totalCount / request.perPage);
-
-            // Ajusta o número da página se for maior que o total
-            int currentPage = request.page > totalPages ? totalPages : request.page;
 
             var repositories = response.Repositories.Select(repo => new Repo
             {
@@ -52,10 +56,10 @@ namespace EVO.ReposManager.Application.Features.Repositories.Queries.GetRepoByNa
             }).ToList();
 
             // Verifica se há mais páginas
-            bool hasMorePages = currentPage < totalPages;
+            bool hasMorePages = page < totalPages;
 
 
-            var SucessResponse = new GetRepoByNameQueryResponse(repositories, default, hasMorePages);
+            var SucessResponse = new GetRepoByNameQueryResponse(hasMorePages, totalPages, repositories, default);
             return SucessResponse;
         }
     }

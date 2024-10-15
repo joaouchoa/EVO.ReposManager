@@ -30,9 +30,36 @@ namespace EVO.ReposManager.Infrastructure.Repositories
             _gitHubSettings = gitHubSettings.Value;
         }
 
-        public async Task<List<GetReposByOnwerGitHubResponse>> GetRepositoriesByUserAsync(string username)
+        private int ExtractLastPageNumber(string linkHeader)
         {
-            var apiUrl = _gitHubSettings.ApiUrlGetByOnwer.Replace("username", username);
+            if (string.IsNullOrWhiteSpace(linkHeader))
+            {
+                throw new ArgumentException("Link header não pode ser vazio");
+            }
+
+            var links = linkHeader.Split(',');
+
+            foreach (var link in links)
+            {
+                if (link.Contains("rel=\"last\""))
+                {
+                    var lastPageUrl = link.Substring(0, link.IndexOf(";")).Trim('<', '>', ' ');
+                    var pageParam = System.Web.HttpUtility.ParseQueryString(new Uri(lastPageUrl).Query).Get("page");
+
+                    return int.Parse(pageParam);
+                }
+            }
+            return default;
+        }
+
+        public async Task<GetRepoByOwnerGitHubResponse> GetRepositoriesByUserAsync(string username, int page, int perPage)
+        {
+            //var apiUrl = _gitHubSettings.ApiUrlGetByOnwer.Replace("username", username);
+            int lastPage = 1;
+            var apiUrl = _gitHubSettings.ApiUrlGetByOnwer
+                    .Replace("username", username)
+                    .Replace("pagina", page.ToString())
+                    .Replace("byRequest", perPage.ToString());
 
             // Configuração da solicitação para a API do GitHub
             var request = new HttpRequestMessage(HttpMethod.Get, apiUrl);
@@ -42,19 +69,28 @@ namespace EVO.ReposManager.Infrastructure.Repositories
 
             if (response.IsSuccessStatusCode)
             {
-                var jsonResponse = await response.Content.ReadAsStringAsync();
-                var gitHubResponse = JsonSerializer.Deserialize<List<GetReposByOnwerGitHubResponse>>(jsonResponse);
+                if (response.Headers.TryGetValues("Link", out var linkHeaders))
+                {
+                    var linkHeader = linkHeaders.FirstOrDefault();
+                    lastPage = ExtractLastPageNumber(linkHeader);
+                }
 
-                return gitHubResponse;
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                var gitHubResponse = JsonSerializer.Deserialize<List<RepositoryGitHubResponse>>(jsonResponse);
+
+                if (lastPage == 0)
+                    lastPage = page;
+
+                return new GetRepoByOwnerGitHubResponse(lastPage, gitHubResponse);
             }
 
-            return new List<GetReposByOnwerGitHubResponse>();
+            return default;
         }
 
-        public async Task<GetRepoByNameGitHubResponse> GetByRepositoryByNameAsync(string repositoryName, int page, int perPage)
+        public async Task<int> GetByRepositoryByNameCountAsync(string repositoryName) 
         {
             //var url = $"https://api.github.com/search/repositories?q={repositoryName}&per_page=1";
-            var url = _gitHubSettings.ApiUrlGetTotalCount.Replace("repositoryName", repositoryName);
+            var url = _gitHubSettings.ApiUrlGetByRepoNameTotalCount.Replace("repositoryName", repositoryName);
 
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             request.Headers.Add("User-Agent", "ReposManager");
@@ -77,14 +113,11 @@ namespace EVO.ReposManager.Infrastructure.Repositories
                 }
             }
 
-            int totalPages = (int)Math.Ceiling((double)totalCount / perPage);
+            return totalCount;
+        }
 
-            if (page > totalPages && totalPages > 0)
-            {
-                page = totalPages;
-            }
-
-           // var pagedUrl = $"https://api.github.com/search/repositories?q={repositoryName}&page={page}&per_page={perPage}";
+        public async Task<GetRepoByNameGitHubResponse> GetByRepositoryByNameAsync(string repositoryName, int page, int perPage)
+        {
             var apiUrl = _gitHubSettings.ApiUrlGetByRepoName
                     .Replace("repositoryName", repositoryName)
                     .Replace("pagina", page.ToString())
@@ -105,7 +138,7 @@ namespace EVO.ReposManager.Infrastructure.Repositories
             var gitHubResponse = JsonSerializer.Deserialize<GetRepoByNameGitHubResponse>(pagedContent);
 
 
-            var repositories = gitHubResponse.Repositories.Select(repo => new GetReposByOnwerGitHubResponse
+            var repositories = gitHubResponse.Repositories.Select(repo => new RepositoryGitHubResponse
             {
                 Id = repo.Id,
                 Name = repo.Name,
@@ -123,9 +156,17 @@ namespace EVO.ReposManager.Infrastructure.Repositories
             return await _context.Repos.AnyAsync(e => e.Id == id);
         }
 
-        public async Task<List<Repo>> GetFavoriteRepos()
+        public async Task<int> GetFavoriteReposCount()
         {
-            return await _context.Repos.ToListAsync();
+            return await _context.Repos.CountAsync();
+        }
+
+        public async Task<List<Repo>> GetFavoriteRepos(int page, int perPage)
+        {
+            return await _context.Repos
+                .Skip((page - 1) * perPage)
+                .Take(perPage)
+                .ToListAsync();
         }
     }
 }

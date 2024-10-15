@@ -1,4 +1,6 @@
-﻿using EVO.ReposManager.Domain.Entities;
+﻿using EVO.ReposManager.Application.Features.Repositories.DTOs;
+using EVO.ReposManager.Domain.Entities;
+using EVO.ReposManager.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ namespace EVO.ReposManager.Application.Contracts
 {
     public interface IReposWriteRepository
     {
-        Task<bool> CreateFavoriteRepo(Repo repository);
+        Task<ERepoCreationStatus> CreateFavoriteRepo(Repo repository);
         Task<bool> DeleteFavoriteRepo(long id);
     }
 }

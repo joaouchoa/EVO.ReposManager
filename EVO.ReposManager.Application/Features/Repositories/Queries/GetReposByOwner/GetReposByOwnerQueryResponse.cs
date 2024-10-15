@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 namespace EVO.ReposManager.Application.Features.Repositories.Queries.GetRepositories
 {
     public record GetReposByOwnerQueryResponse(
+           int lastPage,
+           bool hasMorePages,
            List<Repo> Repositories,
            List<string> Errors
         );

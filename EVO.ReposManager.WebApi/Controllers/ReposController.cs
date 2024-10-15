@@ -24,9 +24,9 @@ namespace EVO.ReposManager.WebApi.Controllers
         [HttpGet("[action]/{userName}", Name = "GetRepositoriesByOnwer")]
         [ProducesResponseType(typeof(BaseResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> GetRepositoriesByUserName([FromRoute] string userName)
+        public async Task<ActionResult> GetRepositoriesByUserName([FromRoute] string userName, int page, int perPage)
         {
-            var query = new GetReposByOwnerQuery(userName);
+            var query = new GetReposByOwnerQuery(userName, page, perPage);
 
             var response = await _mediator.Send(query, HttpContext.RequestAborted);
 
@@ -60,9 +60,9 @@ namespace EVO.ReposManager.WebApi.Controllers
         [HttpGet("GetFavoriteRepositories")]
         [ProducesResponseType(typeof(BaseResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> GetFavoriteRepositories()
+        public async Task<ActionResult> GetFavoriteRepositories(int page, int perPage)
         {
-            var query = new GetFavoriteReposQuery();
+            var query = new GetFavoriteReposQuery(page, perPage);
 
             var response = await _mediator.Send(query, HttpContext.RequestAborted);
 
@@ -90,7 +90,7 @@ namespace EVO.ReposManager.WebApi.Controllers
             if (!response.created && response.Errors.Count > 0)
                 return CustomResponse((int)HttpStatusCode.BadRequest, response.created, response);
 
-            return CustomResponse((int)HttpStatusCode.Created, response.created, response);
+            return CustomResponse((int)HttpStatusCode.NoContent, response.created, default);
         }
 
         [HttpPost("CreateFavoriteRepository")]
@@ -99,7 +99,6 @@ namespace EVO.ReposManager.WebApi.Controllers
         public async Task<ActionResult> CreateFavoriteRepository([FromBody] CreateFavoriteRepoCommand repository)
         {
             var query = new CreateFavoriteRepoCommand(repository.Id, repository.Name, repository.Description,repository.Url, repository.Language, repository.Owner);
-            Console.WriteLine($"Received repository: {JsonSerializer.Serialize(query)}");
 
             var response = await _mediator.Send(query, HttpContext.RequestAborted);
 
@@ -107,9 +106,9 @@ namespace EVO.ReposManager.WebApi.Controllers
                 return CustomResponse((int)HttpStatusCode.NotFound, false);
 
             if (!response.created && response.Errors.Count > 0)
-                return CustomResponse((int)HttpStatusCode.BadRequest, response.created, response);
+                return CustomResponse((int)HttpStatusCode.BadRequest, response.created, response.Errors);
 
-            return CustomResponse((int)HttpStatusCode.Created, response.created, response);
+            return CustomResponse((int)HttpStatusCode.Created, response.created, default);
         }
 
     }

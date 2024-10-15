@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace EVO.ReposManager.Application.Features.Repositories.Queries.GetFavoriteRepos
 {
-    public record GetFavoriteReposQuery : IRequest<GetFavoriteReposQueryResponse>;
+    public record GetFavoriteReposQuery(int page, int perPage) : IRequest<GetFavoriteReposQueryResponse>;
 }

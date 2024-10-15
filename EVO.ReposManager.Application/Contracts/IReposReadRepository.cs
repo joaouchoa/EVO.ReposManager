@@ -11,13 +11,17 @@ namespace EVO.ReposManager.Application.Contracts
 {
     public interface IReposReadRepository
     {
-        Task<List<GetReposByOnwerGitHubResponse>> GetRepositoriesByUserAsync(string username);
+        Task<GetRepoByOwnerGitHubResponse> GetRepositoriesByUserAsync(string username, int page, int perPage);
 
         Task<GetRepoByNameGitHubResponse> GetByRepositoryByNameAsync(string repoName, int page, int perPage);
 
+        Task<int> GetByRepositoryByNameCountAsync(string repositoryName);
+
         Task<bool> ExistsFavoriteRepoByIdAsync(long id);
 
-        Task<List<Repo>> GetFavoriteRepos();
+        Task<List<Repo>> GetFavoriteRepos(int page, int perPage);
+
+        Task<int> GetFavoriteReposCount();
 
     }
 }

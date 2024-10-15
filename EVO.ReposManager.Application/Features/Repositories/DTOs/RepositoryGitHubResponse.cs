@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EVO.ReposManager.Application.DTOs
 {
-    public record GetReposByOnwerGitHubResponse
+    public record RepositoryGitHubResponse
     {
         [JsonPropertyName("id")]
         public long Id { get; init; }
@@ -26,6 +26,6 @@ namespace EVO.ReposManager.Application.DTOs
         public string Language { get; init; }
 
         [JsonPropertyName("owner")]
-        public Owner Owner { get; init; } // Aqui está o objeto Owner
+        public OwnerGitHubResponse Owner { get; init; } // Aqui está o objeto Owner
     }
 }

@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 namespace EVO.ReposManager.Application.Features.Repositories.Queries.GetFavoriteRepos
 {
     public record GetFavoriteReposQueryResponse(
+           bool HasMorePages,
+           int lastPage,
            List<Repo> Repositories,
            List<string> Errors
         );
