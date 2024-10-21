@@ -28,7 +28,7 @@ API desenvolvida em .NET 8 utilizando **Clean Architecture** para gerenciar repo
 - **GET** `/api/Repos/GetRepositoriesByUserName/`  
   🔍 Recupera os repositórios de um usuário no GitHub pelo nome de usuário.
 
-- **GET** `/api/Repos/GetRepositoriesByName/{repositoryName}`  
+- **GET** `/api/Repos/GetRepositoriesByName/`  
   🔍 Recupera os repositórios pelo nome do repositório no GitHub.
 
 - **POST** `/api/Repos/CreateFavoriteRepository`  
