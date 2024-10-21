@@ -21,7 +21,7 @@ namespace EVO.ReposManager.WebApi.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("[action]/{userName}", Name = "GetRepositoriesByOnwer")]
+        [HttpGet("[action]", Name = "GetRepositoriesByOnwer")]
         [ProducesResponseType(typeof(BaseResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetRepositoriesByUserName([FromRoute] string userName, int page, int perPage)
@@ -39,7 +39,7 @@ namespace EVO.ReposManager.WebApi.Controllers
             return CustomResponse((int)HttpStatusCode.OK, true, response);
         }
 
-        [HttpGet("[action]/{repositoryName}", Name = "GetRepositoriesByName")]
+        [HttpGet("[action]", Name = "GetRepositoriesByName")]
         [ProducesResponseType(typeof(BaseResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetRepositoriesByName([FromRoute] string repositoryName, int page, int perPage)
