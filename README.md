@@ -1,6 +1,6 @@
 # 📦 GitHub Repositories Manager API
 
-![.NET](https://img.shields.io/badge/.NET-8.0-blueviolet) ![C#](https://img.shields.io/badge/C%23-9.0-green) ![Entity Framework](https://img.shields.io/badge/Entity%20Framework-SQLite-lightgrey) ![MediatR](https://img.shields.io/badge/MediatR-CQRS-blue) ![FluentValidation](https://img.shields.io/badge/FluentValidation-Validation-brightgreen) ![Swagger](https://img.shields.io/badge/Swagger-API%20Documentation-yellowgreen)
+![.NET](https://img.shields.io/badge/.NET-8.0-blueviolet) ![C#](https://img.shields.io/badge/C%23-12.0-green) ![Entity Framework](https://img.shields.io/badge/Entity%20Framework-SQLite-lightgrey) ![MediatR](https://img.shields.io/badge/MediatR-CQRS-blue) ![FluentValidation](https://img.shields.io/badge/FluentValidation-Validation-brightgreen) ![Swagger](https://img.shields.io/badge/Swagger-API%20Documentation-yellowgreen)
 
 API desenvolvida em .NET 8 utilizando **Clean Architecture** para gerenciar repositórios do GitHub, permitindo favoritar e consultar repositórios diretamente na API pública do GitHub.
 
