@@ -15,13 +15,6 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddApiConfig(builder.Configuration);
 
-//builder.Services.Configure<GitHubSettings>(builder.Configuration.GetSection("GitHub"));
-
-//builder.Services.AddDbContext<ReposManagerContext>(options =>
-//{
-//    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
-//});
-
 builder.Services.AddHttpClient();
 var app = builder.Build();
 

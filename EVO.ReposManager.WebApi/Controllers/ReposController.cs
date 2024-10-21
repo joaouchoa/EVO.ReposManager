@@ -69,9 +69,6 @@ namespace EVO.ReposManager.WebApi.Controllers
             if (response is null)
                 return CustomResponse((int)HttpStatusCode.NotFound, false);
 
-            //if (response.Repositories is null && response.Errors.Count > 0)
-            //    return CustomResponse((int)HttpStatusCode.BadRequest, false, response);
-
             return CustomResponse((int)HttpStatusCode.OK, true, response);
         }
 

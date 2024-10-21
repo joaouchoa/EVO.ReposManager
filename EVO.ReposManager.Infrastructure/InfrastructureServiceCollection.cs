@@ -17,8 +17,8 @@ namespace EVO.ReposManager.Infrastructure
         public static IServiceCollection AddQueryInfrastructure(this IServiceCollection services) 
         {
             services.AddScoped<ReposManagerContext>();
-            services.AddScoped<IReposReadRepository, ReposReadRepository>(); // Registro da interface
-            services.AddScoped<IReposWriteRepository, ReposWriteRepository>(); // Registro da interface
+            services.AddScoped<IReposReadRepository, ReposReadRepository>();
+            services.AddScoped<IReposWriteRepository, ReposWriteRepository>(); 
 
             return services;
         }

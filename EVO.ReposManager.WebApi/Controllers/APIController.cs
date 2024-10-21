@@ -14,7 +14,6 @@ namespace EVO.ReposManager.WebApi.Controllers
                 (201, true) => Ok(new BaseResponse { StatusCode = status, Sucess = sucess, Message = "Created", Data = data }),
                 (204, true) => Ok(new BaseResponse { StatusCode = status, Sucess = sucess, Message = "Deleted", Data = data }),
                 (400, false) => BadRequest(new BaseResponse { StatusCode = status, Sucess = sucess, Message = "Errors during the transaction.", Data = data }), // Mensagem para erros de validação
-                //(400, false) => BadRequest(new BaseResponse { StatusCode = status, Sucess = sucess, Message = "Errors during the transaction." }),
                 (404, false) => NotFound(new BaseResponse { StatusCode = status, Sucess = sucess, Message = "No elements found.", Data = data })
             };
         }

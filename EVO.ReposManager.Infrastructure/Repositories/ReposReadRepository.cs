@@ -54,7 +54,6 @@ namespace EVO.ReposManager.Infrastructure.Repositories
 
         public async Task<GetRepoByOwnerGitHubResponse> GetRepositoriesByUserAsync(string username, int page, int perPage)
         {
-            //var apiUrl = _gitHubSettings.ApiUrlGetByOnwer.Replace("username", username);
             int lastPage = 1;
             var apiUrl = _gitHubSettings.ApiUrlGetByOnwer
                     .Replace("username", username)
@@ -89,7 +88,6 @@ namespace EVO.ReposManager.Infrastructure.Repositories
 
         public async Task<int> GetByRepositoryByNameCountAsync(string repositoryName) 
         {
-            //var url = $"https://api.github.com/search/repositories?q={repositoryName}&per_page=1";
             var url = _gitHubSettings.ApiUrlGetByRepoNameTotalCount.Replace("repositoryName", repositoryName);
 
             var request = new HttpRequestMessage(HttpMethod.Get, url);
